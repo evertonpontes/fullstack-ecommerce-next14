@@ -2,6 +2,8 @@ import prismadb from '@/lib/prismadb';
 import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 
+import { Navbar } from '@/components/navbar';
+
 interface DashboardLayoutProps {
   children: React.ReactNode;
   params: { storeId: string };
@@ -30,7 +32,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = async ({
 
   return (
     <>
-      Navbar
+      <Navbar />
       {children}
     </>
   );
