@@ -22,11 +22,11 @@ export const Modal: React.FC<ModalProps> = ({
   children,
 }) => {
   const onChange = () => {
-    if (!open) onClose();
+    if (open) onClose();
   };
   return (
     <Dialog open={open} onOpenChange={onChange}>
-      <DialogContent>
+      <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
