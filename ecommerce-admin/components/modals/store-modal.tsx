@@ -21,10 +21,12 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 
 const formSchema = z.object({
   name: z.string().min(1),
+  description: z.string().optional(),
 });
 
 export const StoreModal = () => {
@@ -35,6 +37,7 @@ export const StoreModal = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
+      description: '',
     },
   });
 
@@ -74,6 +77,23 @@ export const StoreModal = () => {
                   <Input
                     {...field}
                     placeholder="Enter store name"
+                    disabled={loading}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem className="grid gap-2">
+                <FormLabel>Store Description</FormLabel>
+                <FormControl>
+                  <Textarea
+                    {...field}
+                    placeholder="Enter store description"
                     disabled={loading}
                   />
                 </FormControl>

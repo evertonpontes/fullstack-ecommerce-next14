@@ -31,10 +31,10 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = async ({
   }
 
   return (
-    <>
-      <Navbar />
+    <div className="w-full h-screen overflow-auto">
+      <Navbar className="sticky top-0" />
       {children}
-    </>
+    </div>
   );
 };
 

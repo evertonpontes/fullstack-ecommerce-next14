@@ -5,7 +5,12 @@ import { Store } from '@prisma/client';
 import { useParams, useRouter } from 'next/navigation';
 import { useStoreModal } from '@/hooks/use-store-modal';
 
-import { CheckIcon, ChevronsUpDown, PlusCircleIcon } from 'lucide-react';
+import {
+  CheckIcon,
+  ChevronsUpDown,
+  CircleIcon,
+  PlusCircleIcon,
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -62,7 +67,7 @@ export const StoreSwitcher: React.FC<StoreSwitcherProps> = ({
           variant={'outline'}
           role="combobox"
           aria-expanded={open}
-          className={cn('w-[200px] justify-between', className)}
+          className={cn('w-full md:w-[200px] justify-between', className)}
         >
           {currentStore?.label}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -80,6 +85,7 @@ export const StoreSwitcher: React.FC<StoreSwitcherProps> = ({
                   onSelect={() => onStoreSelect(store)}
                   className="text-sm"
                 >
+                  <CircleIcon className="mr-2 w-4 h-4" />
                   {store.label}
                   <CheckIcon
                     className={cn(
