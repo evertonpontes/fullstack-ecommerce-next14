@@ -31,6 +31,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { AlertModal } from '@/components/modals/alert-modal';
 import { ApiAlert } from '@/components/ui/api-alert';
 import { useOrigin } from '@/hooks/use-origin';
+import { TextEditor } from '@/components/ui/text-editor';
 
 interface SettingsFormProps {
   initialData: Store;
@@ -138,10 +139,11 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
                   <FormItem className="grid gap-2">
                     <FormLabel>Store Description</FormLabel>
                     <FormControl>
-                      <Textarea
-                        {...field}
+                      <TextEditor
+                        description={field.value}
+                        onChange={field.onChange}
                         placeholder="Enter store description"
-                        disabled={loading}
+                        disable={loading}
                       />
                     </FormControl>
                     <FormMessage />
