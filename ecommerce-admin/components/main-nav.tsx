@@ -45,10 +45,10 @@ export const MainNav = ({
   }, []);
 
   useEffect(() => {
-    window.addEventListener('resize', onResizeWindow);
+    window.addEventListener('resize', onResizeWindow, true);
 
     return () => {
-      removeEventListener('resize', onResizeWindow);
+      removeEventListener('resize', onResizeWindow, true);
     };
   }, [onResizeWindow]);
 

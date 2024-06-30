@@ -27,7 +27,7 @@ import { Separator } from '@/components/ui/separator';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { TextEditor } from '@/components/ui/text-editor';
+import { ImageUpload } from '@/components/ui/image-upload';
 
 interface CategoryFormProps {
   initialData: Category | null;
@@ -86,52 +86,65 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
       <Separator />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="flex">
-            <Card>
-              <CardContent>
-                <CardHeader>
-                  <CardTitle>General</CardTitle>
-                </CardHeader>
-                <div className="flex-col space-y-4">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Category Name</FormLabel>
-                        <FormControl>
-                          <Input {...field} placeholder="Enter name" />
-                        </FormControl>
-                        <FormDescription>
-                          A category name is required and recommended to be
-                          unique.
-                        </FormDescription>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="description"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Description</FormLabel>
-                        <FormControl>
-                          <TextEditor
-                            description={field.value}
-                            onChange={field.onChange}
-                            placeholder="Type your text here..."
-                          />
-                        </FormControl>
-                        <FormDescription>
-                          A category name is required and recommended to be
-                          unique.
-                        </FormDescription>
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </CardContent>
-            </Card>
+          <div className="">
+            <div className="flex-col space-y-4 sm:max-w-[389px]">
+              <FormField
+                control={form.control}
+                name="thumbnailUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Thumbnail Image</FormLabel>
+                    <FormControl>
+                      <ImageUpload
+                        value={field.value ? [field.value] : []}
+                        disable={loading}
+                        onChange={(url) => field.onChange(url)}
+                        onRemove={() => field.onChange('')}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Set the category thumbnail image. Only *.png, *.jpg and
+                      *.jpeg image files are accepted
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Category Name</FormLabel>
+                    <FormControl>
+                      <Input {...field} placeholder="Enter name" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Description</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        {...field}
+                        value={field.value || ''}
+                        placeholder="Enter category description"
+                        disabled={loading}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button disabled={loading} type="submit" className="mr-auto">
+                Save changes
+              </Button>
+            </div>
           </div>
         </form>
       </Form>

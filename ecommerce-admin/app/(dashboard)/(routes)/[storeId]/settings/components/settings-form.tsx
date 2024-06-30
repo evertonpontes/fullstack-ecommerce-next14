@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Heading } from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
-import { CopyIcon, TrashIcon } from 'lucide-react';
+import { TrashIcon } from 'lucide-react';
 
 import toast from 'react-hot-toast';
 
@@ -31,7 +31,6 @@ import { useParams, useRouter } from 'next/navigation';
 import { AlertModal } from '@/components/modals/alert-modal';
 import { ApiAlert } from '@/components/ui/api-alert';
 import { useOrigin } from '@/hooks/use-origin';
-import { TextEditor } from '@/components/ui/text-editor';
 
 interface SettingsFormProps {
   initialData: Store;
@@ -139,11 +138,10 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
                   <FormItem className="grid gap-2">
                     <FormLabel>Store Description</FormLabel>
                     <FormControl>
-                      <TextEditor
-                        description={field.value}
-                        onChange={field.onChange}
+                      <Textarea
+                        {...field}
                         placeholder="Enter store description"
-                        disable={loading}
+                        disabled={loading}
                       />
                     </FormControl>
                     <FormMessage />
