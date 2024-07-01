@@ -31,7 +31,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({
   return (
     <Modal
       title="Are you sure you want to delete?"
-      description="This action cannot be undone. This will permanently delete the selected store from our servers."
+      description="This action cannot be undone. This will permanently delete the selected object from our servers."
       open={isOpen}
       onClose={onClose}
       Icon={TriangleAlertIcon}

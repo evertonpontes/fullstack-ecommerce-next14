@@ -24,10 +24,10 @@ import { Heading } from '@/components/ui/heading';
 import { Button } from '@/components/ui/button';
 import { TrashIcon } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { ImageUpload } from '@/components/ui/image-upload';
+import { AlertModal } from '@/components/modals/alert-modal';
 
 interface CategoryFormProps {
   initialData: Category | null;
@@ -62,14 +62,54 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
     },
   });
 
-  const onSubmit = (values: CategoryFormValues) => {
-    console.log(values);
+  const onSubmit = async (values: CategoryFormValues) => {
+    try {
+      setLoading(true);
+      if (initialData) {
+        await axios.patch(
+          `/api/${params.storeId}/categories/${params.categoryId}`,
+          values
+        );
+      } else {
+        await axios.post(`/api/${params.storeId}/categories`, values);
+      }
+      router.refresh();
+      router.push(`/${params.storeId}/categories`);
+      toast.success(toastMessage);
+    } catch (error) {
+      toast.error('Something went wrong.');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const onDelete = () => {};
+  const onDelete = async () => {
+    try {
+      setLoading(true);
+      await axios.delete(
+        `/api/${params.storeId}/categories/${params.categoryId}`
+      );
+      router.refresh();
+      router.push(`/${params.storeId}/categories`);
+      toast.success('Category deleted.');
+    } catch (error) {
+      toast.error(
+        'Make sure you removed all products using this category first.'
+      );
+    } finally {
+      setLoading(false);
+      setOpen(false);
+    }
+  };
 
   return (
     <>
+      <AlertModal
+        isOpen={open}
+        loading={loading}
+        onClose={() => setOpen(false)}
+        onConfirm={onDelete}
+      />
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
         {initialData && (
@@ -117,7 +157,11 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
                   <FormItem>
                     <FormLabel>Category Name</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="Enter name" />
+                      <Input
+                        {...field}
+                        placeholder="Enter name"
+                        disabled={loading}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -142,7 +186,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
                 )}
               />
               <Button disabled={loading} type="submit" className="mr-auto">
-                Save changes
+                {action}
               </Button>
             </div>
           </div>
